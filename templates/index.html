@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upscaler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            margin: 20px 0;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        form:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #5cb85c;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+        li {
+            color: red;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            display: none; /* Initially hidden */
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload an Image for Processing</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <img src="{{ url_for('static', filename='upscaled_image.jpg') }}" alt="Upscaled Image" id="resultImage">
+    
+    <script>
+        // Show the result image after upload
+        const imgElement = document.getElementById('resultImage');
+        if (imgElement.src) {
+            imgElement.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
